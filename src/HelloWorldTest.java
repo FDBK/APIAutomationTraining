@@ -6,7 +6,12 @@ public class HelloWorldTest {
 
     @Test
     public void testHelloWorld(){
-        System.out.println("Hello from FDBK");
+        Response response = RestAssured
+                .get("https://playground.learnqa.ru/api/get_text")
+                .andReturn();
+        response.prettyPrint();
+
+        //System.out.println("Hello from FDBK");
         //Response response = RestAssured
         //        .get("https://playground.learnqa.ru/api/hello")
         //        .andReturn();
