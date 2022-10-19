@@ -1,17 +1,22 @@
 package Homeworks;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Homework_11 {
 
-    @ParameterizedTest
-    @ValueSource(strings = {"Short string", "String with more than 15 symbols"})
-    public void testCheckLength(String string) {
+    @Test
+    public void testAssertHomeworkCookie() {
 
-        assertTrue(string.length() > 15, "Error! The string's length is less than 15, it's " + string.length());
+        Response response = RestAssured
+                .get("https://playground.learnqa.ru/api/homework_cookie")
+                .andReturn();
+
+        String homeworkCookie = response.getCookie("HomeWork");
+        assertEquals("hw_value", homeworkCookie, "Error! Incorrect cookie value: " + homeworkCookie + ".");
 
     }
 
