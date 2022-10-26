@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class Assertions {
 
@@ -69,6 +70,26 @@ public class Assertions {
     public static void assertResponseCodeEquals (Response response, int expectedStatusCode) {
 
         assertEquals(
+                expectedStatusCode,
+                response.statusCode(),
+                "Error! Unexpected response status code."
+        );
+
+    }
+
+    public static void assertResponseTextNotEquals (Response response, String expectedAnswer) {
+
+        assertNotEquals(
+                expectedAnswer,
+                response.asString(),
+                "Error! Unexpected response text."
+        );
+
+    }
+
+    public static void assertResponseCodeNotEquals (Response response, int expectedStatusCode) {
+
+        assertNotEquals(
                 expectedStatusCode,
                 response.statusCode(),
                 "Error! Unexpected response status code."

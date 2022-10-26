@@ -112,4 +112,26 @@ public class APICoreRequests {
 
     }
 
+    @Step("Make a DELETE-Request with token and cookie")
+    public Response makeDeleteRequest(String url, String token, String cookie) {
+
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token))
+                .cookie("auth_sid", cookie)
+                .delete(url)
+                .andReturn();
+
+    }
+
+    @Step("Make a DELETE-Request without authorization")
+    public Response makeDeleteRequestWithoutAuthorization(String url) {
+
+        return given()
+                .filter(new AllureRestAssured())
+                .delete(url)
+                .andReturn();
+
+    }
+
 }
