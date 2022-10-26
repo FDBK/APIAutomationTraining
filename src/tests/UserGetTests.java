@@ -67,4 +67,32 @@ public class UserGetTests extends BaseTestCase {
 
     }
 
+    @Test
+    public void testGetUserDetailsAuthAsAnotherUser() {
+
+        Map<String, String> authData = new HashMap<>();
+        authData.put("email", "vinkotov@example.com");
+        authData.put("password", "1234");
+
+        Response responseGetAuth = apiCoreRequests.makePostRequest(
+                "https://playground.learnqa.ru/api/user/login",
+                authData);
+
+        String header = this.getHeader(responseGetAuth, "x-csrf-token");
+        String cookie = this.getCookie(responseGetAuth, "auth_sid");
+
+        Response responseUserData = apiCoreRequests.makeGetRequestWithTokenAndCookie(
+                "https://playground.learnqa.ru/api/user/1",
+                header,
+                cookie);
+
+        responseUserData.prettyPrint();
+
+        String[] unexpectedFields = {"firstName", "lastName", "email"};
+
+        Assertions.assertJsonHasField(responseUserData, "username");
+        Assertions.assertJsonHasNotFields(responseUserData, unexpectedFields);
+
+    }
+
 }
