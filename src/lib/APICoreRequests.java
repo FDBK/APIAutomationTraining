@@ -80,6 +80,17 @@ public class APICoreRequests {
 
     }
 
+    @Step("Make a PUT-Request without authorization")
+    public Response makePutRequestToEditDataWithoutAuthorization(String url, Map<String, String> editData) {
+
+        return given()
+                .filter(new AllureRestAssured())
+                .body(editData)
+                .put(url)
+                .andReturn();
+
+    }
+
     @Step("Make a GET-Request (JsonPath")
     public JsonPath makeGetRequestJSON(String url) {
 
