@@ -86,8 +86,6 @@ public class UserGetTests extends BaseTestCase {
                 header,
                 cookie);
 
-        responseUserData.prettyPrint();
-
         String[] unexpectedFields = {"firstName", "lastName", "email"};
 
         Assertions.assertJsonHasField(responseUserData, "username");
