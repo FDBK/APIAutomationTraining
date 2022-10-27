@@ -1,4 +1,4 @@
-# JavaAPI
+# APIAutomationTraining
 
 Code written for the API Automation Training Project (October 2022). 
 
