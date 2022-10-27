@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -15,12 +16,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-
-@Epic("Authorization Cases")
-@Feature("Authorization")
+@Epic("User Authorization Cases")
+@Feature("User Authorization")
 public class UserAuthTests extends BaseTestCase {
 
     String cookie;
@@ -48,7 +45,9 @@ public class UserAuthTests extends BaseTestCase {
 
     @Test
     @Description("This test successfully authorizes the user by username and password")
-    @DisplayName("Positive User Authorization")
+    @DisplayName("Positive User Authorization Test")
+    @Story("Positive User Authorization Tests")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testAuthUser() {
 
         Response responseCheckAuth = apiCoreRequests
@@ -62,9 +61,10 @@ public class UserAuthTests extends BaseTestCase {
     }
 
     @ParameterizedTest
-    @Description("This test checks authorization without sending headers or cookies")
-    @DisplayName("Negative User Authorization")
     @ValueSource(strings = {"cookie", "headers"})
+    @Description("This test checks authorization without sending headers or cookies")
+    @DisplayName("Negative User Authorization Test")
+    @Story("Negative User Authorization Tests")
     public void testAuthUserNegative(String condition) {
 
         RequestSpecification spec = RestAssured.given();

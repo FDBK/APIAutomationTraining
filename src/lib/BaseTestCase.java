@@ -1,5 +1,6 @@
 package lib;
 
+import io.qameta.allure.Step;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BaseTestCase {
 
+    @Step("Get header from response: '{name}'")
     protected String getHeader (Response response, String name) {
 
         Headers headers = response.getHeaders();
@@ -20,6 +22,7 @@ public class BaseTestCase {
 
     }
 
+    @Step("Get cookie from response: '{name}'")
     protected String getCookie (Response response, String name) {
 
         Map<String, String> cookies = response.getCookies();
@@ -30,6 +33,7 @@ public class BaseTestCase {
 
     }
 
+    @Step("Get integer from response: '{name}'")
     protected int getIntFromJson (Response response, String name) {
 
         response.then().assertThat().body("$", hasKey(name));

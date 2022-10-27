@@ -1,11 +1,14 @@
 package lib;
 
+import io.qameta.allure.Step;
+
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataGenerator {
 
+    @Step("Generate random e-mail with timestamp")
     public static String getRandomEmail() {
 
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
@@ -14,6 +17,7 @@ public class DataGenerator {
 
     }
 
+    @Step("Generate default registration data")
     public static Map<String, String> getRegistrationData() {
 
         Map<String, String> data = new HashMap<>();
@@ -27,6 +31,7 @@ public class DataGenerator {
 
     }
 
+    @Step("Generate non-default registration data")
     public static Map<String, String> getRegistrationData(Map<String, String> nonDefaultValues) {
 
         Map<String, String> defaultValues = DataGenerator.getRegistrationData();

@@ -1,11 +1,13 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import lib.APICoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -13,11 +15,17 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Epic("Editing User Data Cases")
+@Feature("Editing User Data")
 public class UserEditTests extends BaseTestCase {
 
     private final APICoreRequests apiCoreRequests = new APICoreRequests();
 
     @Test
+    @Description("This test registers new user and successfully edits this user's data")
+    @DisplayName("Positive User Data Editing Test")
+    @Story("Positive User Data Editing Tests")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testEditJustCreatedUser() {
 
         // GENERATE USER
@@ -87,6 +95,9 @@ public class UserEditTests extends BaseTestCase {
     }
 
     @Test
+    @Description("This test attempts to edit user's data without authorization")
+    @DisplayName("Negative User Data Editing Test - No authorization")
+    @Story("Negative User Data Editing Tests")
     public void testUnauthorizedEdit() {
 
         Map<String, String> editData = new HashMap<>();
@@ -103,6 +114,9 @@ public class UserEditTests extends BaseTestCase {
     }
 
     @Test
+    @Description("This test attempts to edit another user's data")
+    @DisplayName("Negative User Data Editing Test - Another user")
+    @Story("Negative User Data Editing Tests")
     public void testEditUserAuthAsAnotherUser() {
 
         // LOG IN AS FIRST USER (ID 48730)
@@ -159,6 +173,9 @@ public class UserEditTests extends BaseTestCase {
     }
 
     @Test
+    @Description("This test attempts to incorrectly change user's e-mail (without @)")
+    @DisplayName("Negative User Data Editing Test - Incorrect e-mail")
+    @Story("Negative User Data Editing Tests")
     public void testEditEmailIncorrectly() {
 
         // LOG IN
@@ -190,6 +207,9 @@ public class UserEditTests extends BaseTestCase {
     }
 
     @Test
+    @Description("This test attempts to incorrectly change user's first name (too short)")
+    @DisplayName("Negative User Data Editing Test - First name is too short")
+    @Story("Negative User Data Editing Tests")
     public void testEditFirstNameVeryShort() {
 
         // LOG IN

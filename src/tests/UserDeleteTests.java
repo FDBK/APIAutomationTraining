@@ -1,11 +1,13 @@
 package tests;
 
+import io.qameta.allure.*;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import lib.APICoreRequests;
 import lib.Assertions;
 import lib.BaseTestCase;
 import lib.DataGenerator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -13,34 +15,17 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Epic("User Deletion Cases")
+@Feature("User Deletion")
 public class UserDeleteTests extends BaseTestCase {
 
     private final APICoreRequests apiCoreRequests = new APICoreRequests();
 
     @Test
-    public void testDeleteProtectedUser() {
-        Map<String, String> authData = new HashMap<>();
-        authData.put("email", "vinkotov@example.com");
-        authData.put("password", "1234");
-
-        Response responseGetAuth = apiCoreRequests.makePostRequest(
-                "https://playground.learnqa.ru/api/user/login",
-                authData);
-
-        String header = this.getHeader(responseGetAuth, "x-csrf-token");
-        String cookie = this.getCookie(responseGetAuth, "auth_sid");
-
-        Response responseDeleteUser = apiCoreRequests.makeDeleteRequest(
-                "https://playground.learnqa.ru/api/user/2",
-                header,
-                cookie);
-
-        Assertions.assertResponseCodeEquals(responseDeleteUser, 400);
-        Assertions.assertResponseTextEquals(responseDeleteUser, "Please, do not delete test users with ID 1, 2, 3, 4 or 5.");
-
-    }
-
-    @Test
+    @Description("This test registers new user and successfully deletes this user")
+    @DisplayName("Positive User Deletion Test")
+    @Story("Positive User Deletion Tests")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testDeleteJustCreatedUser() {
 
         // GENERATE USER
@@ -88,6 +73,35 @@ public class UserDeleteTests extends BaseTestCase {
     }
 
     @Test
+    @Description("This test attempts to delete the protected user")
+    @DisplayName("Negative User Deletion Test - Protected user")
+    @Story("Negative User Deletion Tests")
+    public void testDeleteProtectedUser() {
+        Map<String, String> authData = new HashMap<>();
+        authData.put("email", "vinkotov@example.com");
+        authData.put("password", "1234");
+
+        Response responseGetAuth = apiCoreRequests.makePostRequest(
+                "https://playground.learnqa.ru/api/user/login",
+                authData);
+
+        String header = this.getHeader(responseGetAuth, "x-csrf-token");
+        String cookie = this.getCookie(responseGetAuth, "auth_sid");
+
+        Response responseDeleteUser = apiCoreRequests.makeDeleteRequest(
+                "https://playground.learnqa.ru/api/user/2",
+                header,
+                cookie);
+
+        Assertions.assertResponseCodeEquals(responseDeleteUser, 400);
+        Assertions.assertResponseTextEquals(responseDeleteUser, "Please, do not delete test users with ID 1, 2, 3, 4 or 5.");
+
+    }
+
+    @Test
+    @Description("This test attempts to delete another user")
+    @DisplayName("Negative User Deletion Test - Another user")
+    @Story("Negative User Deletion Tests")
     public void testDeleteUserAuthAsAnotherUser() {
 
         // LOG IN AS FIRST USER (ID 48730)
